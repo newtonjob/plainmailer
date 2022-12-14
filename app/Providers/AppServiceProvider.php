@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Mail\Transports\GmailSmtpRelayTransport;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +25,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
+        Mail::extend('gmail', fn ($config) => new GmailSmtpRelayTransport($config));
     }
 }
