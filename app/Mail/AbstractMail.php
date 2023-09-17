@@ -17,20 +17,13 @@ class AbstractMail extends Mailable
 
     /**
      * Create a new message instance.
-     *
-     * @return void
      */
-    public function __construct(public Request $request)
-    {
-        //
-    }
+    public function __construct(public Request $request) {}
 
     /**
      * Get the message envelope.
-     *
-     * @return \Illuminate\Mail\Mailables\Envelope
      */
-    public function envelope()
+    public function envelope(): Envelope
     {
         return new Envelope(
             from:       new Address(...$this->request->from),
@@ -41,10 +34,8 @@ class AbstractMail extends Mailable
 
     /**
      * Get the message content definition.
-     *
-     * @return \Illuminate\Mail\Mailables\Content
      */
-    public function content()
+    public function content(): Content
     {
         $this->text(new HtmlString($this->request->text));
 
@@ -55,10 +46,8 @@ class AbstractMail extends Mailable
 
     /**
      * Get the attachments for the message.
-     *
-     * @return array
      */
-    public function attachments()
+    public function attachments(): array
     {
         // Todo: Support Attachments
 
