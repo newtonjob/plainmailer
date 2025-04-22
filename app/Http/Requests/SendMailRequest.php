@@ -14,12 +14,16 @@ class SendMailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'from.address' => 'required',
-            'from.name'    => 'required',
-            'to'           => 'required',
-            'html'         => 'required',
-            'text'         => 'string',
-            'config'       => 'array',
+            'from'        => 'required|string',
+            'subject'     => 'required|string',
+            'to'          => 'required',
+            'reply_to'    => 'string',
+            'bcc'         => 'string',
+            'cc'          => 'string',
+            'html'        => 'required',
+            'text'        => 'string',
+            'attachments' => 'array',
+            'config'      => 'array',
         ];
     }
 

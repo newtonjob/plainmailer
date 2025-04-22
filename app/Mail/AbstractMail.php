@@ -3,8 +3,8 @@
 namespace App\Mail;
 
 use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Attachment;
 use Illuminate\Mail\Mailable;
-use Illuminate\Mail\Mailables\Address;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -26,9 +26,9 @@ class AbstractMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            from:       new Address(...$this->attributes->from),
-            to:         $this->attributes->to,
-            subject:    $this->attributes->subject
+            from:    $this->attributes->from,
+            to:      $this->attributes->to,
+            subject: $this->attributes->subject,
         );
     }
 
@@ -49,8 +49,8 @@ class AbstractMail extends Mailable
      */
     public function attachments(): array
     {
-        // Todo: Support Attachments
-
-        return [];
+        return $this->attributes->collect('attachments')->map(
+            fn ($attachment) => Attachment::fromData($attachment['content'], $attachment['filename'])
+        )->all();
     }
 }
