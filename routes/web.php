@@ -1,19 +1,13 @@
 <?php
 
-use App\Http\Controllers\ShootEmailController;
+use App\Http\Requests\SendMailRequest;
+use App\Mail\AbstractMail;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+Route::redirect('/', '/up');
 
-Route::get('/', fn () => 'PLAIN MAILER');
+Route::post('/send', function (SendMailRequest $request) {
+    $request->mailer()->send(new AbstractMail($request->safe()));
 
-Route::post('/shoot', ShootEmailController::class);
+    return response()->noContent();
+});
