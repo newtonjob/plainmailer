@@ -1,13 +1,11 @@
 <?php
 
-use App\Http\Requests\SendMailRequest;
-use App\Mail\AbstractMail;
 use Illuminate\Support\Facades\Route;
 
 Route::redirect('/', '/up');
 
-Route::post('/emails', function (SendMailRequest $request) {
-    $request->mailer()->send(new AbstractMail($request->safe()));
+Route::post('/emails', function (Request $request) {
+    Mail::macro('forward', fn ($message) => $this->sendSymfonyMessage($message));
 
-    return response()->noContent();
+    Mail::build($request->config)->forward(unserialize($request->message));
 });
